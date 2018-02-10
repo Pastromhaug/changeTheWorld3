@@ -1,0 +1,3 @@
+rootProject.name = 'changeTheWorld3'
+
+include ':app'
