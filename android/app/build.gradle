@@ -193,6 +193,10 @@ dependencies {
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
     }
 
+    compile (group: 'com.google.api.grpc', name: 'grpc-google-cloud-speech-v1', version: '0.1.29') {
+        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+    }
+
     compile "com.facebook.react:react-native:0.53.0"  // From node_modules
 }
 
