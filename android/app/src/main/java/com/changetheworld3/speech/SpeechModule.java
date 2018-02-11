@@ -69,7 +69,7 @@ public class SpeechModule extends ReactContextBaseJavaModule {
         @Override
         public void onVoice(byte[] data, int size) {
             if (mSpeechService != null) {
-                Log.i("data", data.toString());
+//                Log.i("data", data.toString());
                 mSpeechService.recognize(data, size);
             }
         }
