@@ -112,6 +112,7 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -142,6 +143,14 @@ android {
     }
     lintOptions {
         abortOnError false
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/io.netty.versions.properties'
+        exclude 'META-INF/INDEX.LIST'
     }
 }
 
@@ -179,6 +188,12 @@ dependencies {
     compile "io.grpc:grpc-stub:$grpcVersion"
     compile 'javax.annotation:javax.annotation-api:1.2'
     protobuf 'com.google.protobuf:protobuf-java:3.3.1'
+
+    compile ('com.google.cloud:google-cloud-speech:0.34.0-alpha') {
+        exclude group: 'io.grpc', module: 'grpc-all'
+        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+        exclude group: 'com.google.api-client', module: 'google-api-client-appengine'
+    }
 
     compile "com.facebook.react:react-native:0.53.0"  // From node_modules
 }
