@@ -190,9 +190,7 @@ dependencies {
     protobuf 'com.google.protobuf:protobuf-java:3.3.1'
 
     compile ('com.google.cloud:google-cloud-speech:0.34.0-alpha') {
-        exclude group: 'io.grpc', module: 'grpc-all'
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
-        exclude group: 'com.google.api-client', module: 'google-api-client-appengine'
     }
 
     compile "com.facebook.react:react-native:0.53.0"  // From node_modules
