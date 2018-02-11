@@ -23,13 +23,14 @@ public class SpeechModule extends ReactContextBaseJavaModule {
     private static final String DURATION_LONG_KEY = "LONG";
 
     private ReactContext mReactContext;
+    private ServiceConnection mServiceConnection;
 
 
     public SpeechModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.mReactContext = reactContext;
 
-        final ServiceConnection mServiceConnection = new ServiceConnection() {
+        mServiceConnection = new ServiceConnection() {
 
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder binder) {
@@ -43,10 +44,6 @@ public class SpeechModule extends ReactContextBaseJavaModule {
             }
 
         };
-
-        final Activity currentActivity = this.getCurrentActivity();
-        Intent speechServiceIntent = new Intent(currentActivity, SpeechService.class);
-        currentActivity.bindService(speechServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -97,6 +94,13 @@ public class SpeechModule extends ReactContextBaseJavaModule {
             sendEvent(mReactContext, "speechReceived", params);
         }
     };
+
+    @ReactMethod
+    private void bindSpeechService() {
+        final Activity currentActivity = this.getCurrentActivity();
+        Intent speechServiceIntent = new Intent(currentActivity, SpeechService.class);
+        currentActivity.bindService(speechServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+    }
 
     @ReactMethod
     private void startVoiceRecorder() {

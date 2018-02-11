@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
 import SpeechModule from '../speech';
+import { connect } from 'react-redux';
 import { View } from 'react-native';
 
 
@@ -8,6 +9,7 @@ import { View } from 'react-native';
 class Speech extends Component {
 
     componentDidMount() {
+        SpeechModule.bindSpeechService();
         SpeechModule.startVoiceRecorder();
     }
 
@@ -20,4 +22,4 @@ class Speech extends Component {
     }
 }
 
-export default connect(mapStateToProps)(Speech);
+export default Speech;
