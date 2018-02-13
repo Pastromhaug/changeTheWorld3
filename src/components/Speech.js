@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import SpeechModule from '../speech';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 
 
@@ -16,7 +16,7 @@ class Speech extends Component {
     render() {
         return (
             <View>
-                hiiiii
+                <Text> hiiiii </Text>
             </View>
         )
     }
