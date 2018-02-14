@@ -107,6 +107,8 @@ public class SpeechModule extends ReactContextBaseJavaModule {
         final Activity currentActivity = this.getCurrentActivity();
         Log.i("currentActivity", currentActivity.toString());
         Intent speechServiceIntent = new Intent(currentActivity, SpeechService.class);
+        Log.i("speechServiceIntent", speechServiceIntent.toString());
+        Log.i("mServiceConnection", mServiceConnection.toString());
         boolean bound = currentActivity.bindService(speechServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
         Log.i("isServiceBound", Boolean.toString(bound));
     }

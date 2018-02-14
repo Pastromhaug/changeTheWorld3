@@ -13,6 +13,7 @@ class Speech extends Component {
 
     componentDidMount() {
         SpeechModule.bindSpeechService();
+        setTimeout(function() { SpeechModule.bindSpeechService(); }, 5000);
 
         // DeviceEventEmitter.addListener('speechReceived', function(e) {
         //     console.log(e)
