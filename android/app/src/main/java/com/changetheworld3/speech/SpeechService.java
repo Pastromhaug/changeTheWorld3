@@ -181,6 +181,7 @@ public class SpeechService extends Service {
 
     @Override
     public void onCreate() {
+        Log.i("onCreate", "onCreate");
         super.onCreate();
         mHandler = new Handler();
         fetchAccessToken();

@@ -18,33 +18,32 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 
-public class SpeechModule extends ReactContextBaseJavaModule {
+public class SpeechModule extends ReactContextBaseJavaModule implements ServiceConnection{
 
     private static final String DURATION_SHORT_KEY = "SHORT";
     private static final String DURATION_LONG_KEY = "LONG";
 
     private ReactContext mReactContext;
-    private ServiceConnection mServiceConnection = new ServiceConnection() {
+    private ReactApplicationContext context;
 
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder binder) {
-            Log.i("onServiceConnected", "mSpeechService connected");
-            mSpeechService = SpeechService.from(binder);
-            mSpeechService.addListener(mSpeechServiceListener);
-        }
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder binder) {
+        Log.i("---------------", "2222onServiceConnected: mSpeechService connected");
+        mSpeechService = SpeechService.from(binder);
+        mSpeechService.addListener(mSpeechServiceListener);
+    }
 
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-            Log.i("onServiceDisconnected", "mSpeechService disconnected");
-            mSpeechService = null;
-        }
-
-    };
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+        Log.i("----------------", "onServiceDisconnected: mSpeechService disconnected");
+        mSpeechService = null;
+    }
 
 
     public SpeechModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.mReactContext = reactContext;
+        this.context = reactContext;
     }
 
     @Override
@@ -103,15 +102,16 @@ public class SpeechModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     private void bindSpeechService() {
-        Log.i("bindSpeechService", "bindSpeechService");
-        final Activity currentActivity = this.getCurrentActivity();
-        Log.i("currentActivity", currentActivity.toString());
-        Intent speechServiceIntent = new Intent(currentActivity, SpeechService.class);
-        currentActivity.startService(speechServiceIntent);
-        Log.i("speechServiceIntent", speechServiceIntent.toString());
-        Log.i("mServiceConnection", mServiceConnection.toString());
-        boolean bound = currentActivity.bindService(speechServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
-        Log.i("isServiceBound", Boolean.toString(bound));
+        try {
+            boolean bound = this.context.bindService(
+                new Intent(this.context, SpeechService.class),
+                this,
+                Context.BIND_AUTO_CREATE
+            );
+            Log.i("--------------", "2222try to bind to service: " + bound);
+        } catch (Exception e) {
+            Log.e("--------------2222ERROR", e.getMessage());
+        }
     }
 
     @ReactMethod

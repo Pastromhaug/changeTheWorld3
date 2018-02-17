@@ -1,8 +1,13 @@
 package com.changetheworld3;
 
 import android.app.Application;
+import android.content.ComponentName;
+import android.content.ServiceConnection;
+import android.os.IBinder;
+import android.util.Log;
 
 import com.changetheworld3.speech.SpeechPackage;
+import com.changetheworld3.speech.SpeechService;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -23,8 +28,8 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-          new SpeechPackage()
+              new MainReactPackage(),
+              new SpeechPackage()
       );
     }
 
