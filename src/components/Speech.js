@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, DeviceEventEmitter } from 'react-native';
+import { FlatList, View, Text, DeviceEventEmitter } from 'react-native';
 
 import SpeechModule from '../speech';
 
@@ -11,25 +11,50 @@ import SpeechModule from '../speech';
 
 class Speech extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {text: []};
+        DeviceEventEmitter.addListener('speechReceived', (e) => {
+            console.log(e)
+            this.setState(state => {
+                newState = Object.assign({}, state)
+                if (newState.text.length === 0) {
+                    newState.text = [{
+                        text: e.text,
+                        key: state.text.length.toString(),
+                        isFinal: e.isFinal
+                    }]
+                }
+                else if (newState.text[0].isFinal) {
+                    newState.text = [{
+                        text: e.text,
+                        key: state.text.length.toString(),
+                        isFinal: e.isFinal
+                    }].concat(newState.text)
+                }
+                else {
+                    newState.text[0].text = e.text
+                    newState.text[0].isFinal = e.isFinal
+                }
+                return newState;
+            })
+        });
+    }
+
     componentDidMount() {
         SpeechModule.bindSpeechService();
-        // setTimeout(function() { SpeechModule.bindSpeechService(); }, 5000);
-
-        DeviceEventEmitter.addListener('speechReceived', function(e) {
-            console.log(e)
-        });
-        // DeviceEventEmitter.addListener('voiceReceived', function(e) {
-        //     console.log(e)
-        // });
         SpeechModule.startVoiceRecorder();
     }
 
     render() {
-        // SpeechModule.bindSpeechService();
-
         return (
             <View>
-                <Text> hiiiii </Text>
+                <FlatList
+                    inverted
+                    data={this.state.text}
+                    renderItem={({item}) => <Text>{item.text}</Text>}
+                    extraData={this.state}
+                />
             </View>
         )
     }
