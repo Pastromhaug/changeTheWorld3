@@ -65,14 +65,8 @@ public class SpeechModule extends ReactContextBaseJavaModule implements ServiceC
 
         @Override
         public void onVoice(byte[] data, int size) {
-//            Log.i("data 1", data.toString());
             if (mSpeechService != null) {
-                Log.i("data 2", data.toString());
                 mSpeechService.recognize(data, size);
-//                WritableMap params = Arguments.createMap();
-//                params.putString("voice data", data.toString());
-//                params.putInt("size", size);
-//                sendEvent(mReactContext, "voiceReceived", params);
             }
         }
 
@@ -84,19 +78,19 @@ public class SpeechModule extends ReactContextBaseJavaModule implements ServiceC
         }
     };
 
-//    private void sendEvent(ReactContext reactContext, String eventName, @Nullable WritableMap params) {
-//        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-//                    .emit(eventName, params);
-//    }
-//
+    private void sendEvent(ReactContext reactContext, String eventName, @Nullable WritableMap params) {
+        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                    .emit(eventName, params);
+    }
+
     private final SpeechService.Listener mSpeechServiceListener = new SpeechService.Listener() {
         @Override
         public void onSpeechRecognized(final String text, final boolean isFinal) {
-            Log.i("speech", text);
-//            WritableMap params = Arguments.createMap();
-//            params.putString("text", text);
-//            params.putBoolean("isFinal", isFinal);
-//            sendEvent(mReactContext, "speechReceived", params);
+            Log.i("-------------", "speech: " + text);
+            WritableMap params = Arguments.createMap();
+            params.putString("text", text);
+            params.putBoolean("isFinal", isFinal);
+            sendEvent(mReactContext, "speechReceived", params);
         }
     };
 
@@ -108,9 +102,9 @@ public class SpeechModule extends ReactContextBaseJavaModule implements ServiceC
                 this,
                 Context.BIND_AUTO_CREATE
             );
-            Log.i("--------------", "2222try to bind to service: " + bound);
+            Log.i("--------------", "try to bind to service: " + bound);
         } catch (Exception e) {
-            Log.e("--------------2222ERROR", e.getMessage());
+            Log.e("-------------- ERROR", e.getMessage());
         }
     }
 
