@@ -12,7 +12,8 @@ import SpeechModule from '../speech';
 class Speech extends Component {
 
     componentDidMount() {
-        setTimeout(function() { SpeechModule.bindSpeechService(); }, 5000);
+        SpeechModule.bindSpeechService();
+        // setTimeout(function() { SpeechModule.bindSpeechService(); }, 5000);
 
         // DeviceEventEmitter.addListener('speechReceived', function(e) {
         //     console.log(e)
@@ -20,7 +21,7 @@ class Speech extends Component {
         // DeviceEventEmitter.addListener('voiceReceived', function(e) {
         //     console.log(e)
         // });
-        // SpeechModule.startVoiceRecorder();
+        SpeechModule.startVoiceRecorder();
     }
 
     render() {
