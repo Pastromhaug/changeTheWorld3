@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "624356220890",
+    "firebase_url": "https://changetheworld-1300.firebaseio.com",
+    "project_id": "changetheworld-1300",
+    "storage_bucket": "changetheworld-1300.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624356220890:android:20f42bb2f0b0a0f4",
+        "android_client_info": {
+          "package_name": "com.changetheworld3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "624356220890-a4pehh0o8hj557ktihum6g0rngt8hmid.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANru12rnL2KVoOpp71RXiau3QE7dlWPpA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
