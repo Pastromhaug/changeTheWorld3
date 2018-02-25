@@ -11,6 +11,8 @@ import com.changetheworld3.speech.SpeechService;
 import com.facebook.react.ReactApplication;
 import com.reactlibrary.googlesignin.RNGoogleSignInPackage;
 import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -33,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
               new MainReactPackage(),
               new RNGoogleSignInPackage(),
               new RNFirebasePackage(),
+              new RNFirebaseAuthPackage(),
               new SpeechPackage()
       );
     }

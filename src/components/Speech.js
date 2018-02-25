@@ -2,19 +2,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, View, Text, DeviceEventEmitter } from 'react-native';
+import firebase from 'react-native-firebase';
 
 import SpeechModule from '../speech';
 
 
 import GoogleSignIn from '../googleSignIn';
 
+
 async function googleSignIn() {
-  await GoogleSignIn.configure({ });
-  const user = await GoogleSignIn.signIn();
-  console.log(user);
-  return user;
+    await GoogleSignIn.configure({});
+    const user = await GoogleSignIn.signIn();
+    console.log('googleSignIn user: ', user);
 }
 
+async function firebaseSignIn(idToken, accessToken) {
+    const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken);
+    const currentUser = await firebase.auth().signInWithCredential(credential);
+    console.log('firebaseSignIn user: ', JSON.stringify(currentUser.toJSON()));
+}
 
 class Speech extends Component {
 
@@ -50,6 +56,7 @@ class Speech extends Component {
         DeviceEventEmitter.addListener('RNGoogleSignInSuccess', (e) => {
             console.log('RNGoogleSignInSuccess');
             console.log(e)
+            firebaseSignIn(e.idToken, e.accessToken)
         })
         DeviceEventEmitter.addListener('RNGoogleDisconnectSuccess', (e) => {
             console.log('RNGoogleDisconnectSuccess');
