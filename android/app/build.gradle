@@ -200,6 +200,8 @@ dependencies {
     compile "com.google.android.gms:play-services-base:11.8.0"
     compile "com.google.firebase:firebase-core:11.8.0"
     compile 'com.google.firebase:firebase-auth:11.8.0'
+    compile "com.google.firebase:firebase-database:11.8.0"
+
     compile 'com.google.android.gms:play-services-auth:11.8.0'
 
     compile(project(":react-native-google-sign-in")) { // ADD this
