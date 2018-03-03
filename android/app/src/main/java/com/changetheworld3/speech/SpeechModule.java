@@ -31,12 +31,14 @@ public class SpeechModule extends ReactContextBaseJavaModule implements ServiceC
         Log.i("---------------", "2222onServiceConnected: mSpeechService connected");
         mSpeechService = SpeechService.from(binder);
         mSpeechService.addListener(mSpeechServiceListener);
+        sendEvent(mReactContext, "speechServiceConnected", Arguments.createMap());
     }
 
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
         Log.i("----------------", "onServiceDisconnected: mSpeechService disconnected");
         mSpeechService = null;
+        sendEvent(mReactContext, "speechServiceDisconnected", Arguments.createMap());
     }
 
 
@@ -61,6 +63,7 @@ public class SpeechModule extends ReactContextBaseJavaModule implements ServiceC
             if (mSpeechService != null) {
                 mSpeechService.startRecognizing(mVoiceRecorder.getSampleRate());
             }
+            sendEvent(mReactContext, "onVoiceStart", Arguments.createMap());
         }
 
         @Override
@@ -75,6 +78,7 @@ public class SpeechModule extends ReactContextBaseJavaModule implements ServiceC
             if (mSpeechService != null) {
                 mSpeechService.finishRecognizing();
             }
+            sendEvent(mReactContext, "onVoiceEnd", Arguments.createMap());
         }
     };
 
@@ -105,6 +109,9 @@ public class SpeechModule extends ReactContextBaseJavaModule implements ServiceC
             Log.i("--------------", "try to bind to service: " + bound);
         } catch (Exception e) {
             Log.e("-------------- ERROR", e.getMessage());
+            WritableMap params = Arguments.createMap();
+            params.putString("error", e.getMessage());
+            sendEvent(mReactContext, "bindSpeechService Error", Arguments.createMap());
         }
     }
 

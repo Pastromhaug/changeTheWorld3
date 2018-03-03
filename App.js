@@ -7,20 +7,18 @@ import { Provider } from 'react-redux'
 
 import LoggedOut from './src/components/LoggedOut';
 import Speech from './src/components/Speech';
-import { count } from './src/models/count';
-import { count2 } from './src/models/count2';
 import { messages } from './src/models/messages';
+import { speechService } from './src/models/speechService';
 
-YellowBox.ignoreWarnings(['Deprecated firebase.User.Prototype.signInWithCredential']);
+YellowBox.ignoreWarnings(['Deprecated firebase.User.prototype.signInWithCredential']);
 YellowBox.ignoreWarnings(['Warning: componentWillMount is deprecated']);
 YellowBox.ignoreWarnings(['Warning: componentWillReceiveProps is deprecated']);
 YellowBox.ignoreWarnings(['Warning: componentWillUpdate is deprecated']);
 
 const store = init({
     models: {
-        count,
-        count2,
         messages,
+        speechService,
     }
 });
 

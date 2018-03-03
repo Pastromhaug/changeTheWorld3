@@ -42,6 +42,23 @@ class Speech extends Component {
             //     // this.lastMessageRef.set(message);
             // }
         });
+
+        DeviceEventEmitter.addListener('speechServiceConnected', (e) => {
+            console.log('speechServiceConnected');
+            props.setSpeechServiceConnected(true);
+        })
+        DeviceEventEmitter.addListener('speechServiceDisconnected', (e) => {
+            console.log('speechServiceDisconnected');
+            props.setSpeechServiceConnected(false);
+        })
+        DeviceEventEmitter.addListener('onVoiceStart', (e) => {
+            console.log('onVoiceStart');
+            props.setHearingVoice(true);
+        })
+        DeviceEventEmitter.addListener('onVoiceEnd', (e) => {
+            console.log('onVoiceEnd');
+            props.setHearingVoice(false);
+        })
     }
 
     componentDidMount() {
@@ -50,19 +67,16 @@ class Speech extends Component {
     }
 
     render() {
+        const connectedColor = this.props.speechServiceConnected ? 'green' : 'red';
+        const hearingVoiceColor = this.props.hearingVoice ? 'blue' : 'yellow';
         return (
             <View>
-                <Text
-                  onPress={() => this.props.increment()}> { this.props.count }  </Text>
-                <Text
-                  onPress={() => this.props.increment2()}> { this.props.count2 }  </Text>
-                <Text
-                  onPress={() => this.props.incrementAsync()}> hey </Text>
+                <Text style={{backgroundColor: connectedColor}}/>
+                <Text style={{backgroundColor: hearingVoiceColor}}/>
                 <FlatList
                   inverted
                   data={ this.props.messages }
                   renderItem={ ({ item }) => <Text>{item.text}</Text> }
-                  extraData={ this.state }
                 />
             </View>
         );
@@ -70,17 +84,20 @@ class Speech extends Component {
 }
 
 const mapState = state => ({
-    count: state.count,
-    count2: state.count2,
     messages: state.messages,
+    speechServiceConnected: state.speechService.connected,
+    hearingVoice: state.speechService.hearingVoice,
 });
 
 const mapDispatch = dispatch => ({
-    incrementAsync: () => dispatch.count.incrementAsync(2),
-    increment: () => dispatch.count.increment(1),
-    increment2: () => dispatch.count2.increment(1),
     addOrUpdateMessageAsync: (text, isFinal) => {
         dispatch.messages.addOrUpdateMessageAsync({text, isFinal});
+    },
+    setSpeechServiceConnected: (isConnected) => {
+        dispatch.speechService.setConnected({isConnected})
+    },
+    setHearingVoice: (isHearingVoice) => {
+        dispatch.speechService.setHearingVoice({isHearingVoice})
     },
 });
 
