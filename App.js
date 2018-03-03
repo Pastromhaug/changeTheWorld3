@@ -3,11 +3,11 @@ import React from 'react';
 import firebase from 'react-native-firebase';
 import { YellowBox } from 'react-native';
 import { init } from '@rematch/core';
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
 
 import LoggedOut from './src/components/LoggedOut';
 import Speech from './src/components/Speech';
-import { messages } from './src/models/messages';
+import { messaging } from './src/models/messaging';
 import { speechService } from './src/models/speechService';
 
 YellowBox.ignoreWarnings(['Deprecated firebase.User.prototype.signInWithCredential']);
@@ -17,9 +17,9 @@ YellowBox.ignoreWarnings(['Warning: componentWillUpdate is deprecated']);
 
 const store = init({
     models: {
-        messages,
+        messaging,
         speechService,
-    }
+    },
 });
 
 export default class App extends React.Component {
