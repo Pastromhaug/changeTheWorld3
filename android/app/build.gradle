@@ -193,7 +193,7 @@ dependencies {
         exclude module: 'httpclient'
     }
 
-    compile "com.facebook.react:react-native:0.53.0"
+    compile "com.facebook.react:react-native:0.54.0"
     compile(project(':react-native-firebase')) {
         transitive = false
     }

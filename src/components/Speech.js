@@ -9,47 +9,44 @@ import SpeechModule from '../speech';
 class Speech extends Component {
     constructor(props) {
         super(props);
-    }
-    //     this.state = { messages: [] };
-    //     this.messagesRef = firebase.database().ref('messages');
-    //     this.lastMessageRef = null;
+        // this.messagesRef = firebase.database().ref('messages');
+        // this.lastMessageRef = null;
 
-    //     DeviceEventEmitter.addListener('speechReceived', (e) => {
-    //         console.log(e);
-    //         this.setState((state) => {
-    //             const newState = Object.assign({}, state);
-    //             if (newState.messages.length === 0) {
-    //                 const message = {
-    //                     text: e.text,
-    //                     key: state.messages.length.toString(),
-    //                     isFinal: e.isFinal,
-    //                 };
-    //                 newState.messages = [message];
-    //                 this.lastMessageRef = this.messagesRef.push(message);
-    //             } else if (newState.messages[0].isFinal) {
-    //                 const message = {
-    //                     text: e.text,
-    //                     key: state.messages.length.toString(),
-    //                     isFinal: e.isFinal,
-    //                 };
-    //                 newState.messages = [message].concat(newState.messages);
-    //                 this.lastMessageRef = this.messagesRef.push(message);
-    //             } else {
-    //                 let message = newState.messages[0];
-    //                 message.text = e.text;
-    //                 message.isFinal = e.isFinal;
-    //                 newState.messages[0] = message;
-    //                 this.lastMessageRef.set(message);
-    //             }
-    //             return newState;
-    //         });
-    //     });
-    // }
+        DeviceEventEmitter.addListener('speechReceived', (e) => {
+            console.log(e);
+            props.addOrUpdateMessageAsync(e.text, e.isFinal);
+            // if (props.messages.length === 0) {
+            //     props.addMessageAsync(e.text, e.isFinal);
+            //     // const message = {
+            //     //     text: e.text,
+            //     //     key: state.messages.length.toString(),
+            //     //     isFinal: e.isFinal,
+            //     // };
+            //     // newState.messages = [message];
+            //     // this.lastMessageRef = this.messagesRef.push(message);
+            // } else if (props.messages[0].isFinal) {
+            //     props.addMessageAsync(e.text, e.isFinal);
+            //     // const message = {
+            //     //     text: e.text,
+            //     //     key: state.messages.length.toString(),
+            //     //     isFinal: e.isFinal,
+            //     // };
+            //     // newState.messages = [message].concat(newState.messages);
+            //     // this.lastMessageRef = this.messagesRef.push(message);
+            // } else {
+            //     props.updateMessageAsync(e.text, e.isFinal);
+            //     // let message = newState.messages[0];
+            //     // message.text = e.text;
+            //     // message.isFinal = e.isFinal;
+            //     // newState.messages[0] = message;
+            //     // this.lastMessageRef.set(message);
+            // }
+        });
+    }
 
     componentDidMount() {
-        // SpeechModule.bindSpeechService();
-        // SpeechModule.startVoiceRecorder();
-        // console.log(this.props.count);
+        SpeechModule.bindSpeechService();
+        SpeechModule.startVoiceRecorder();
     }
 
     render() {
@@ -61,12 +58,12 @@ class Speech extends Component {
                   onPress={() => this.props.increment2()}> { this.props.count2 }  </Text>
                 <Text
                   onPress={() => this.props.incrementAsync()}> hey </Text>
-{/*                <FlatList
+                <FlatList
                   inverted
-                  data={ this.state.messages }
+                  data={ this.props.messages }
                   renderItem={ ({ item }) => <Text>{item.text}</Text> }
                   extraData={ this.state }
-                />*/}
+                />
             </View>
         );
     }
@@ -75,12 +72,16 @@ class Speech extends Component {
 const mapState = state => ({
     count: state.count,
     count2: state.count2,
+    messages: state.messages,
 });
 
 const mapDispatch = dispatch => ({
     incrementAsync: () => dispatch.count.incrementAsync(2),
     increment: () => dispatch.count.increment(1),
     increment2: () => dispatch.count2.increment(1),
+    addOrUpdateMessageAsync: (text, isFinal) => {
+        dispatch.messages.addOrUpdateMessageAsync({text, isFinal});
+    },
 });
 
 export default connect(mapState, mapDispatch)(Speech);
