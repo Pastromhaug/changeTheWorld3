@@ -58,6 +58,8 @@ class Speech extends Component {
                 <Text
                   onPress={() => this.props.increment()}> { this.props.count }  </Text>
                 <Text
+                  onPress={() => this.props.increment2()}> { this.props.count2 }  </Text>
+                <Text
                   onPress={() => this.props.incrementAsync()}> hey </Text>
 {/*                <FlatList
                   inverted
@@ -72,11 +74,13 @@ class Speech extends Component {
 
 const mapState = state => ({
     count: state.count,
+    count2: state.count2,
 });
 
 const mapDispatch = dispatch => ({
     incrementAsync: () => dispatch.count.incrementAsync(2),
-    increment: () => dispatch.count.increment(1)
+    increment: () => dispatch.count.increment(1),
+    increment2: () => dispatch.count2.increment(1),
 });
 
 export default connect(mapState, mapDispatch)(Speech);

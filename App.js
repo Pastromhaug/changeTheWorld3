@@ -7,13 +7,16 @@ import { Provider } from 'react-redux'
 
 import LoggedOut from './src/components/LoggedOut';
 import Speech from './src/components/Speech';
-import * as models from './src/models/models';
-
+import { count } from './src/models/count';
+import { count2 } from './src/models/count2';
 
 YellowBox.ignoreWarnings(['Deprecated firebase']);
 
 const store = init({
-    models,
+    models: {
+        count,
+        count2,
+    }
 });
 
 export default class App extends React.Component {
