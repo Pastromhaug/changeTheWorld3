@@ -55,7 +55,8 @@ class Speech extends Component {
     render() {
         return (
             <View>
-                <Text> { this.props.count }  </Text>
+                <Text
+                  onPress={() => this.props.increment()}> { this.props.count }  </Text>
                 <Text
                   onPress={() => this.props.incrementAsync()}> hey </Text>
 {/*                <FlatList
@@ -75,6 +76,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
     incrementAsync: () => dispatch.count.incrementAsync(2),
+    increment: () => dispatch.count.increment(1)
 });
 
 export default connect(mapState, mapDispatch)(Speech);
