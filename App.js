@@ -2,12 +2,19 @@
 import React from 'react';
 import firebase from 'react-native-firebase';
 import { YellowBox } from 'react-native';
+import { init } from '@rematch/core';
+import { Provider } from 'react-redux'
 
 import LoggedOut from './src/components/LoggedOut';
 import Speech from './src/components/Speech';
+import * as models from './src/models/models';
 
 
 YellowBox.ignoreWarnings(['Deprecated firebase']);
+
+const store = init({
+    models,
+});
 
 export default class App extends React.Component {
     constructor() {
@@ -31,8 +38,14 @@ export default class App extends React.Component {
         this.authSubscription();
     }
     render() {
-        if (this.state.loading) return null;
-        if (this.state.user) return <Speech />;
-        return <LoggedOut />;
+        let show = null;
+        if (this.state.loading) show = null;
+        if (this.state.user) show = <Speech />;
+        else show = <LoggedOut />;
+        return (
+            <Provider store={ store }>
+                { show }
+            </Provider>
+        );
     }
 }
