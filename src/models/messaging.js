@@ -7,6 +7,7 @@ export const messaging = {
         lastMessageKey: null,
         isFinal: true,
         incrementer: 0,
+        receivedCount: 0,
     },
     reducers: {
         sendMessage(state, payload) {
@@ -32,6 +33,7 @@ export const messaging = {
         receiveMessages(state, payload) {
             return Object.assign({}, state, {
                 messages: payload.messages,
+                receivedCount: state.receivedCount + 1,
             });
         },
     },

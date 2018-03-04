@@ -4,7 +4,6 @@ import { FlatList, View, Text, DeviceEventEmitter } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'react-native-firebase';
 
-import SpeechModule from '../speech';
 
 class Speech extends Component {
     constructor(props) {
@@ -12,22 +11,6 @@ class Speech extends Component {
         DeviceEventEmitter.addListener('speechReceived', (e) => {
             console.log(e);
             props.sendMessage(e.text, e.isFinal);
-        });
-        DeviceEventEmitter.addListener('speechServiceConnected', () => {
-            console.log('speechServiceConnected');
-            props.setSpeechServiceConnected(true);
-        });
-        DeviceEventEmitter.addListener('speechServiceDisconnected', () => {
-            console.log('speechServiceDisconnected');
-            props.setSpeechServiceConnected(false);
-        });
-        DeviceEventEmitter.addListener('onVoiceStart', () => {
-            console.log('onVoiceStart');
-            props.setHearingVoice(true);
-        });
-        DeviceEventEmitter.addListener('onVoiceEnd', () => {
-            console.log('onVoiceEnd');
-            props.setHearingVoice(false);
         });
 
         firebase.database()
@@ -38,11 +21,6 @@ class Speech extends Component {
                     messages: Object.values(s.toJSON()),
                 });
             });
-    }
-
-    componentDidMount() {
-        SpeechModule.bindSpeechService();
-        SpeechModule.startVoiceRecorder();
     }
 
     render() {
@@ -68,8 +46,6 @@ class Speech extends Component {
 
 const mapState = state => ({
     messages: state.messaging.messages,
-    speechServiceConnected: state.speechService.connected,
-    hearingVoice: state.speechService.hearingVoice,
 });
 
 const mapDispatch = dispatch => ({
@@ -78,12 +54,6 @@ const mapDispatch = dispatch => ({
     },
     receiveMessages: (messages) => {
         dispatch.messaging.receiveMessages({ messages });
-    },
-    setSpeechServiceConnected: (isConnected) => {
-        dispatch.speechService.setConnected({ isConnected });
-    },
-    setHearingVoice: (isHearingVoice) => {
-        dispatch.speechService.setHearingVoice({ isHearingVoice });
     },
 });
 

@@ -6,7 +6,7 @@ import { init } from '@rematch/core';
 import { Provider } from 'react-redux';
 
 import LoggedOut from './src/components/LoggedOut';
-import Speech from './src/components/Speech';
+import LoggedIn from './src/components/Speech';
 import { messaging } from './src/models/messaging';
 import { speechService } from './src/models/speechService';
 
@@ -46,7 +46,7 @@ export default class App extends React.Component {
     render() {
         let show = null;
         if (this.state.loading) show = null;
-        if (this.state.user) show = <Speech />;
+        if (this.state.user) show = <LoggedIn />;
         else show = <LoggedOut />;
         return (
             <Provider store={ store }>
