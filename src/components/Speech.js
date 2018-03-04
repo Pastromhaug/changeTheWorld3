@@ -11,9 +11,8 @@ class Speech extends Component {
         super(props);
         DeviceEventEmitter.addListener('speechReceived', (e) => {
             console.log(e);
-            props.addOrUpdateMessageAsync(e.text, e.isFinal);
+            props.sendMessage(e.text, e.isFinal);
         });
-
         DeviceEventEmitter.addListener('speechServiceConnected', () => {
             console.log('speechServiceConnected');
             props.setSpeechServiceConnected(true);
@@ -30,6 +29,15 @@ class Speech extends Component {
             console.log('onVoiceEnd');
             props.setHearingVoice(false);
         });
+
+        firebase.database()
+            .ref('messages')
+            .orderByKey('sortOrder')
+            .on('value', (s) => {
+                props.receiveMessages({
+                    messages: Object.values(s.toJSON()),
+                });
+            });
     }
 
     componentDidMount() {
@@ -40,15 +48,18 @@ class Speech extends Component {
     render() {
         const connectedColor = this.props.speechServiceConnected ? 'green' : 'red';
         const hearingVoiceColor = this.props.hearingVoice ? 'blue' : 'yellow';
+        console.log('rendering', this.props.messages);
         return (
             <View>
                 <Text style={ { backgroundColor: connectedColor } } />
                 <Text style={ { backgroundColor: hearingVoiceColor } } />
+                <Text> {this.props.messages.toString()} </Text>
                 <FlatList
                   inverted
                   data={ this.props.messages }
-                  renderItem={ ({ item }) => <Text>{item.text}</Text> }
-                  extraData={ this.props.messages }
+                  keyExtractor={ item => item.key }
+                  renderItem={ item => <Text>{item.text}</Text> }
+                  extraData={ this.props }
                 />
             </View>
         );
@@ -62,8 +73,11 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-    addOrUpdateMessageAsync: (text, isFinal) => {
-        dispatch.messaging.addOrUpdateMessageAsync({ text, isFinal });
+    sendMessage: (text, isFinal) => {
+        dispatch.messaging.sendMessage({ text, isFinal });
+    },
+    receiveMessages: (messages) => {
+        dispatch.messaging.receiveMessages({ messages });
     },
     setSpeechServiceConnected: (isConnected) => {
         dispatch.speechService.setConnected({ isConnected });

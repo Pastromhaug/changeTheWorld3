@@ -3,27 +3,36 @@ import firebase from 'react-native-firebase';
 export const messaging = {
     state: {
         messages: [],
-        // messagesRef: firebase.database().ref('messages'),
-        lastMessageRef: null,
+        messagesRef: firebase.database().ref('messages'),
+        lastMessageKey: null,
         isFinal: true,
+        incrementer: 0,
     },
     reducers: {
-        addOrUpdateMessage(state, payload) {
-            let newState = Object.assign({}, state);
-            if (!newState.isFinal) {
-                newState.messages = newState.messages.slice(1);
+        sendMessage(state, payload) {
+            let ref = firebase.database().ref('messages');
+            if (state.isFinal) {
+                ref = ref.push();
+            } else {
+                ref = ref.child(state.lastMessageKey);
             }
-            newState.messages = [{
+            const msg = {
                 text: payload.text,
-                key: newState.messages.length.toString(),
-            }, ...newState.messages];
-            newState.isFinal = payload.isFinal;
-            return newState;
+                key: ref.key,
+                sortOrder: state.incrementer,
+                time: Date.now(),
+            };
+            ref.set(msg);
+            return Object.assign({}, state, {
+                lastMessageKey: ref.key,
+                isFinal: payload.isFinal,
+                incrementer: state.incrementer + 1,
+            });
         },
-    },
-    effects: {
-        addOrUpdateMessageAsync(payload) {
-            this.addOrUpdateMessage(payload);
+        receiveMessages(state, payload) {
+            return Object.assign({}, state, {
+                messages: payload.messages,
+            });
         },
     },
 };
