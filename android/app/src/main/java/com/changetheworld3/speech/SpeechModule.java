@@ -111,7 +111,7 @@ public class SpeechModule extends ReactContextBaseJavaModule implements ServiceC
             Log.e("-------------- ERROR", e.getMessage());
             WritableMap params = Arguments.createMap();
             params.putString("error", e.getMessage());
-            sendEvent(mReactContext, "bindSpeechService Error", Arguments.createMap());
+            sendEvent(mReactContext, "bindSpeechServiceError", Arguments.createMap());
         }
     }
 

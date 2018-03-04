@@ -16,6 +16,10 @@ class Monitor extends Component {
             console.log('speechServiceDisconnected');
             props.setSpeechServiceConnected(false);
         });
+        DeviceEventEmitter.addListener('bindSpeechServiceError', (e) => {
+            console.log('bindSpeechServiceError', e);
+            props.setHearingVoice(false);
+        });
         DeviceEventEmitter.addListener('onVoiceStart', () => {
             console.log('onVoiceStart');
             props.setHearingVoice(true);

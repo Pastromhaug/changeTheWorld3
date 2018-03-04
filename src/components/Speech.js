@@ -1,5 +1,7 @@
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import { FlatList, View, Text, DeviceEventEmitter } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'react-native-firebase';
@@ -17,32 +19,37 @@ class Speech extends Component {
             .ref('messages')
             .orderByKey('sortOrder')
             .on('value', (s) => {
-                props.receiveMessages({
-                    messages: Object.values(s.toJSON()),
-                });
+                console.log('s');
+                console.log(Object.values(s.val()));
+                const messages = Object.values(s.val());
+                props.receiveMessages(messages);
             });
     }
 
     render() {
         const connectedColor = this.props.speechServiceConnected ? 'green' : 'red';
         const hearingVoiceColor = this.props.hearingVoice ? 'blue' : 'yellow';
-        console.log('rendering', this.props.messages);
+        console.log('rendering');
+        console.log(this.props.messages);
         return (
             <View>
                 <Text style={ { backgroundColor: connectedColor } } />
                 <Text style={ { backgroundColor: hearingVoiceColor } } />
-                <Text> {this.props.messages.toString()} </Text>
                 <FlatList
                   inverted
                   data={ this.props.messages }
                   keyExtractor={ item => item.key }
-                  renderItem={ item => <Text>{item.text}</Text> }
+                  renderItem={ ({ item }) => <Text>{item.text}</Text> }
                   extraData={ this.props }
                 />
             </View>
         );
     }
 }
+
+Speech.propTypes = {
+    messages: PropTypes.array.isRequired,
+};
 
 const mapState = state => ({
     messages: state.messaging.messages,
