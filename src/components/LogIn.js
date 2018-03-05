@@ -26,7 +26,6 @@ class LogIn extends Component {
 }
 
 const mapState = state => ({
-    loading: state.user.loading,
     loggedIn: state.user.false,
 });
 
