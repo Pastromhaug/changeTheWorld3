@@ -17,8 +17,8 @@ class Speech extends Component {
 
         firebase.database()
             .ref('messages')
-            .orderByKey('time')
-            .limitToLast(10)
+            .orderByValue()
+            .limitToLast(100)
             .on('value', (s) => {
                 const messages = Object.values(s.val());
                 props.receiveMessages(messages);
@@ -26,14 +26,9 @@ class Speech extends Component {
     }
 
     render() {
-        console.log('messages');
-        console.log(this.props.messages);
-        console.log('last message');
-        console.log(this.props.messages[this.props.messages.length - 1]);
         return (
             <View>
                 <FlatList
-                  inverted
                   data={ this.props.messages }
                   keyExtractor={ item => item.key }
                   renderItem={ ({ item }) => <Text>{item.text}</Text> }

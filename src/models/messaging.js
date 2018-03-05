@@ -28,8 +28,9 @@ export const messaging = {
             });
         },
         receiveMessages(state, payload) {
+            const messages = payload.messages.sort((a, b) => b.time - a.time);
             return Object.assign({}, state, {
-                messages: payload.messages,
+                messages,
             });
         },
     },
