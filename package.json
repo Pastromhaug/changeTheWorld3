@@ -7,11 +7,14 @@
     "test": "jest"
   },
   "dependencies": {
+    "@rematch/core": "^0.4.1",
+    "npm": "^5.7.1",
+    "prop-types": "^15.6.1",
     "react": "16.2.0",
     "react-native": "0.53.0",
     "react-native-firebase": "^3.2.7",
     "react-native-google-sign-in": "^1.0.16",
-    "react-redux": "^5.0.6",
+    "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0"
