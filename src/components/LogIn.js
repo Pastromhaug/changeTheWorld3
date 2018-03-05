@@ -9,18 +9,17 @@ import LoggedIn from './LoggedIn';
 
 class LogIn extends Component {
     componentDidMount() {
-        this.authSubscription = firebase.auth().onAuthStateChanged((e) => {
-            console.log('onAuthStateChanged: ', e);
-            const user = e.user;
-            console.log('user', user);
-            this.props.login(user.displayName, user.email, user.photoUrl);
+        this.authSubscription = firebase.auth().onAuthStateChanged((user) => {
+            console.log('onAuthStateChanged: ', user);
+            if (user) {
+                this.props.login(user.displayName, user.email, user.photoUrl);
+            }
         });
     }
     componentWillUnmount() {
         this.authSubscription();
     }
     render() {
-        if (this.props.loading) return null;
         if (this.props.loggedIn) return <LoggedIn />;
         return <LoggedOut />;
     }
@@ -33,7 +32,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
     login: (displayName, email, photoUrl) => {
-        dipsatch.user.login({ displayName, email, photoUrl });
+        dispatch.user.login({ displayName, email, photoUrl });
     },
 });
 

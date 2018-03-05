@@ -56,6 +56,7 @@ export default class LoggedOut extends Component {
     }
 
     componentDidMount() {
+        console.log('LoggedOut');
         googleSignIn();
     }
 

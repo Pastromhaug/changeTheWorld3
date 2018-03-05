@@ -4,10 +4,13 @@ import { View } from 'react-native';
 import Monitor from './Monitor';
 import Speech from './Speech';
 
-export default () => (
-    <View>
-        <Monitor />
-        <Speech />
-    </View>
-);
+export default () => {
+    console.log('LoggedIn');
+    return (
+        <View>
+            <Monitor />
+            <Speech />
+        </View>
+    );
+};
 

@@ -24,6 +24,6 @@ const store = init({
 
 export default () => (
     <Provider store={ store }>
-        <Login />
+        <LogIn />
     </Provider>
 );
