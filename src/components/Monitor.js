@@ -1,6 +1,6 @@
 
-import { Component } from 'react';
-import { DeviceEventEmitter } from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, DeviceEventEmitter } from 'react-native';
 import { connect } from 'react-redux';
 
 import SpeechModule from '../speech';
@@ -31,11 +31,21 @@ class Monitor extends Component {
     }
 
     componentDidMount() {
+        console.log('monitor mounted');
         SpeechModule.bindSpeechService();
         SpeechModule.startVoiceRecorder();
     }
 
-    render() { return null; }
+    render() {
+        const connectedColor = this.props.speechServiceConnected ? 'green' : 'red';
+        const hearingVoiceColor = this.props.hearingVoice ? 'blue' : 'yellow';
+        return (
+            <View>
+                <Text style={ { backgroundColor: connectedColor } } />
+                <Text style={ { backgroundColor: hearingVoiceColor } } />
+            </View>
+        );
+    }
 }
 
 const mapState = state => ({

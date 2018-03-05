@@ -6,8 +6,6 @@ export const messaging = {
         messagesRef: firebase.database().ref('messages'),
         lastMessageKey: null,
         isFinal: true,
-        incrementer: 0,
-        receivedCount: 0,
     },
     reducers: {
         sendMessage(state, payload) {
@@ -27,13 +25,11 @@ export const messaging = {
             return Object.assign({}, state, {
                 lastMessageKey: ref.key,
                 isFinal: payload.isFinal,
-                incrementer: state.incrementer + 1,
             });
         },
         receiveMessages(state, payload) {
             return Object.assign({}, state, {
                 messages: payload.messages,
-                receivedCount: state.receivedCount + 1,
             });
         },
     },

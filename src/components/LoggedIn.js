@@ -6,8 +6,8 @@ import Speech from './Speech';
 
 export default () => (
     <View>
-        <Speech />
         <Monitor />
+        <Speech />
     </View>
 );
 

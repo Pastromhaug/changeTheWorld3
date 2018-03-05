@@ -17,24 +17,21 @@ class Speech extends Component {
 
         firebase.database()
             .ref('messages')
-            .orderByKey('sortOrder')
+            .orderByKey('time')
+            .limitToLast(10)
             .on('value', (s) => {
-                console.log('s');
-                console.log(Object.values(s.val()));
                 const messages = Object.values(s.val());
                 props.receiveMessages(messages);
             });
     }
 
     render() {
-        const connectedColor = this.props.speechServiceConnected ? 'green' : 'red';
-        const hearingVoiceColor = this.props.hearingVoice ? 'blue' : 'yellow';
-        console.log('rendering');
+        console.log('messages');
         console.log(this.props.messages);
+        console.log('last message');
+        console.log(this.props.messages[this.props.messages.length - 1]);
         return (
             <View>
-                <Text style={ { backgroundColor: connectedColor } } />
-                <Text style={ { backgroundColor: hearingVoiceColor } } />
                 <FlatList
                   inverted
                   data={ this.props.messages }

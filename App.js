@@ -6,7 +6,7 @@ import { init } from '@rematch/core';
 import { Provider } from 'react-redux';
 
 import LoggedOut from './src/components/LoggedOut';
-import LoggedIn from './src/components/Speech';
+import LoggedIn from './src/components/LoggedIn';
 import { messaging } from './src/models/messaging';
 import { speechService } from './src/models/speechService';
 
