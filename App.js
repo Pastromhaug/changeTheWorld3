@@ -1,14 +1,13 @@
 
 import React from 'react';
-import firebase from 'react-native-firebase';
 import { YellowBox } from 'react-native';
 import { init } from '@rematch/core';
 import { Provider } from 'react-redux';
 
-import LoggedOut from './src/components/LoggedOut';
-import LoggedIn from './src/components/LoggedIn';
+import LogIn from './src/components/LogIn';
 import { messaging } from './src/models/messaging';
 import { speechService } from './src/models/speechService';
+import { user } from './src/models/user';
 
 YellowBox.ignoreWarnings(['Deprecated firebase.User.prototype.signInWithCredential']);
 YellowBox.ignoreWarnings(['Warning: componentWillMount is deprecated']);
@@ -19,39 +18,12 @@ const store = init({
     models: {
         messaging,
         speechService,
+        user,
     },
 });
 
-export default class App extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            loading: true,
-        };
-    }
-
-    componentDidMount() {
-        this.authSubscription = firebase.auth().onAuthStateChanged((user) => {
-            console.log('onAuthStateChanged: ', user);
-            this.setState({
-                loading: false,
-                user,
-            });
-        });
-    }
-
-    componentWillUnmount() {
-        this.authSubscription();
-    }
-    render() {
-        let show = null;
-        if (this.state.loading) show = null;
-        if (this.state.user) show = <LoggedIn />;
-        else show = <LoggedOut />;
-        return (
-            <Provider store={ store }>
-                { show }
-            </Provider>
-        );
-    }
-}
+export default () => (
+    <Provider store={ store }>
+        <LogIn />
+    </Provider>
+);

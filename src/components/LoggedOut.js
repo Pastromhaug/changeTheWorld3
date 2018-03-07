@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { View, Text, DeviceEventEmitter } from 'react-native';
 import firebase from 'react-native-firebase';
-import GoogleSignIn from '../googleSignIn';
+import GoogleSignIn from '../native_modules/googleSignIn';
 
 async function googleSignIn() {
     await GoogleSignIn.configure({});
@@ -56,6 +56,7 @@ export default class LoggedOut extends Component {
     }
 
     componentDidMount() {
+        console.log('LoggedOut');
         googleSignIn();
     }
 

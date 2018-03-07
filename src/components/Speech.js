@@ -1,10 +1,9 @@
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-
-import { FlatList, View, Text, DeviceEventEmitter } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'react-native-firebase';
+import PropTypes from 'prop-types';
+import { FlatList, View, Text, DeviceEventEmitter } from 'react-native';
 
 
 class Speech extends Component {
@@ -18,7 +17,7 @@ class Speech extends Component {
         firebase.database()
             .ref('messages')
             .orderByValue()
-            .limitToLast(100)
+            .limitToLast(20)
             .on('value', (s) => {
                 const messages = Object.values(s.val());
                 props.receiveMessages(messages);
