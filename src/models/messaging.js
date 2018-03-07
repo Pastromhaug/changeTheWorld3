@@ -6,6 +6,7 @@ export const messaging = {
         messagesRef: firebase.database().ref('messages'),
         lastMessageKey: null,
         isFinal: true,
+        userId: null,
     },
     reducers: {
         sendMessage(state, payload) {
