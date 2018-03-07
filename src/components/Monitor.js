@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, DeviceEventEmitter } from 'react-native';
 import { connect } from 'react-redux';
 
-import SpeechModule from '../speech';
+import SpeechModule from '../native_modules/speech';
 
 class Monitor extends Component {
     constructor(props) {

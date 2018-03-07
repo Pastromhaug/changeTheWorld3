@@ -26,7 +26,7 @@ class LogIn extends Component {
 }
 
 const mapState = state => ({
-    loggedIn: state.user.false,
+    loggedIn: state.user.loggedIn,
 });
 
 const mapDispatch = dispatch => ({

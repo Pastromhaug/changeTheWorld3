@@ -17,7 +17,7 @@ class Speech extends Component {
         firebase.database()
             .ref('messages')
             .orderByValue()
-            .limitToLast(100)
+            .limitToLast(20)
             .on('value', (s) => {
                 const messages = Object.values(s.val());
                 props.receiveMessages(messages);

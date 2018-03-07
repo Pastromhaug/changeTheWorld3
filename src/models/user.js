@@ -5,14 +5,14 @@ export const user = {
         email: null,
         photoUrl: null,
     },
-    reducer: {
+    reducers: {
         login(state, payload) {
-            return Object.assign({}, state, {
+            return {
                 loggedIn: true,
                 displayName: payload.displayName,
                 email: payload.email,
                 photoUrl: payload.photoUrl,
-            });
+            };
         },
     },
 };
