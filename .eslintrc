@@ -17,6 +17,8 @@
         // make it meaningful
         "prefer-const": 1,
 
+        "import/prefer-default-export": 0,
+
         // spacing
         "react/jsx-filename-extension": 0,
         "react/jsx-curly-spacing": [ 2, "always" ],

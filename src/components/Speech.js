@@ -7,11 +7,22 @@ import { FlatList, View, Text, DeviceEventEmitter } from 'react-native';
 
 
 class Speech extends Component {
-    constructor(props) {
-        super(props);
+    static renderItem({ item }) {
+        const { text, user } = item;
+        let display = text || '';
+        display = user ? text.concat(' - ').concat(user.displayName) : display;
+
+        return <Text>{display}</Text>;
+    }
+
+    componentDidMount() {
         DeviceEventEmitter.addListener('speechReceived', (e) => {
             console.log(e);
-            props.sendMessage(e.text, e.isFinal);
+            this.props.sendMessage(
+                e.text,
+                e.isFinal,
+                this.props.user,
+            );
         });
 
         firebase.database()
@@ -20,7 +31,7 @@ class Speech extends Component {
             .limitToLast(20)
             .on('value', (s) => {
                 const messages = Object.values(s.val());
-                props.receiveMessages(messages);
+                this.props.receiveMessages(messages);
             });
     }
 
@@ -30,7 +41,7 @@ class Speech extends Component {
                 <FlatList
                   data={ this.props.messages }
                   keyExtractor={ item => item.key }
-                  renderItem={ ({ item }) => <Text>{item.text}</Text> }
+                  renderItem={ Speech.renderItem }
                   extraData={ this.props }
                 />
             </View>
@@ -44,11 +55,12 @@ Speech.propTypes = {
 
 const mapState = state => ({
     messages: state.messaging.messages,
+    user: state.user,
 });
 
 const mapDispatch = dispatch => ({
-    sendMessage: (text, isFinal) => {
-        dispatch.messaging.sendMessage({ text, isFinal });
+    sendMessage: (text, isFinal, user) => {
+        dispatch.messaging.sendMessage({ text, isFinal, user });
     },
     receiveMessages: (messages) => {
         dispatch.messaging.receiveMessages({ messages });
