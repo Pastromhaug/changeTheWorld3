@@ -12,8 +12,12 @@
 
         "no-use-before-define": [ 2, { "functions": false } ],
 
+        "no-console": 0,
+
         // make it meaningful
         "prefer-const": 1,
+
+        "import/prefer-default-export": 0,
 
         // spacing
         "react/jsx-filename-extension": 0,

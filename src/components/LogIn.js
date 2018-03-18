@@ -12,7 +12,12 @@ class LogIn extends Component {
         this.authSubscription = firebase.auth().onAuthStateChanged((user) => {
             console.log('onAuthStateChanged: ', user);
             if (user) {
-                this.props.login(user.displayName, user.email, user.photoUrl);
+                this.props.login(
+                    user.displayName,
+                    user.email,
+                    user.photoUrl,
+                    user.uid,
+                );
             }
         });
     }
@@ -30,8 +35,13 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-    login: (displayName, email, photoUrl) => {
-        dispatch.user.login({ displayName, email, photoUrl });
+    login: (displayName, email, photoUrl, uid) => {
+        dispatch.user.login({
+            displayName,
+            email,
+            photoUrl,
+            uid,
+        });
     },
 });
 

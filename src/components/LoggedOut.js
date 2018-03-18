@@ -21,37 +21,8 @@ export default class LoggedOut extends Component {
         super(props);
 
         DeviceEventEmitter.addListener('RNGoogleSignInSuccess', (e) => {
-            console.log('RNGoogleSignInSuccess');
-            console.log(e);
+            console.log('RNGoogleSignInSuccess', e);
             firebaseSignIn(e.idToken, e.accessToken);
-        });
-        DeviceEventEmitter.addListener('RNGoogleDisconnectSuccess', (e) => {
-            console.log('RNGoogleDisconnectSuccess');
-            console.log(e);
-        });
-        DeviceEventEmitter.addListener('RNGoogleDisconnectError', (e) => {
-            console.log('RNGoogleDisconnectError');
-            console.log(e);
-        });
-        DeviceEventEmitter.addListener('RNGoogleApiConnectionFailed', (e) => {
-            console.log('RNGoogleApiConnectionFailed');
-            console.log(e);
-        });
-        DeviceEventEmitter.addListener('RNGoogleApiConnectionSuspended', (e) => {
-            console.log('RNGoogleApiConnectionSuspended');
-            console.log(e);
-        });
-        DeviceEventEmitter.addListener('RNGoogleSignInError', (e) => {
-            console.log('RNGoogleSignInError');
-            console.log(e);
-        });
-        DeviceEventEmitter.addListener('RNGoogleSignOutError', (e) => {
-            console.log('RNGoogleSignOutError');
-            console.log(e);
-        });
-        DeviceEventEmitter.addListener('RNGoogleSignOutSuccess', (e) => {
-            console.log('RNGoogleSignOutSuccess');
-            console.log(e);
         });
     }
 

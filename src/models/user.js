@@ -4,6 +4,7 @@ export const user = {
         displayName: null,
         email: null,
         photoUrl: null,
+        uid: null,
     },
     reducers: {
         login(state, payload) {
@@ -12,6 +13,7 @@ export const user = {
                 displayName: payload.displayName,
                 email: payload.email,
                 photoUrl: payload.photoUrl,
+                uid: payload.uid,
             };
         },
     },

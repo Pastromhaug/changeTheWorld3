@@ -3,7 +3,6 @@ import firebase from 'react-native-firebase';
 export const messaging = {
     state: {
         messages: [],
-        messagesRef: firebase.database().ref('messages'),
         lastMessageKey: null,
         isFinal: true,
     },
@@ -20,6 +19,8 @@ export const messaging = {
                 key: ref.key,
                 sortOrder: state.incrementer,
                 time: Date.now(),
+                user: payload.user,
+
             };
             ref.set(msg);
             return Object.assign({}, state, {
