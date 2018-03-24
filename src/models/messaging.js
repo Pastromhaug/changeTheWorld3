@@ -1,11 +1,15 @@
 import firebase from 'react-native-firebase';
 
-export const messaging = {
+export const groups = {
     state: {
-        messages: [],
-        lastMessageKey: null,
-        isFinal: true,
-    },
+        groupId: {
+            messages: [],
+            lastMessageKey: null,
+            isFinal: true,
+        },
+    }
+
+
     reducers: {
         sendMessage(state, payload) {
             let ref = firebase.database().ref('messages');
