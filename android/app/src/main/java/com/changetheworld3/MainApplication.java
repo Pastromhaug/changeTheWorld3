@@ -41,7 +41,6 @@ public class MainApplication extends NavigationApplication {
       );
     }
 
-    @Override
     public String getJSMainModuleName() {
       return "index";
     }
