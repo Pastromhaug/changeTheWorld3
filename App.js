@@ -24,22 +24,21 @@ const store = init({
 
 registerScreens(store, Provider);
 
-const navigatorStyle = {
-    statusBarColor: 'black',
-    statusBarTextColorScheme: 'light',
-    navigationBarColor: 'black',
-    navBarBackgroundColor: '#0a0a0a',
-    navBarTextColor: 'white',
-    navBarButtonColor: 'white',
-    tabBarButtonColor: 'red',
-    tabBarSelectedButtonColor: 'red',
-    tabBarBackgroundColor: 'white',
-};
-
-Navigation.startSingleScreenApp({
-    screen: {
-        screen: 'LogIn',
-        title: 'LogIn',
-        navigatorStyle,
+Navigation.events().onAppLaunched(() => {
+  Navigation.setRoot({
+  stack: {
+    options: {
+      topBar: {
+        hidden: false,
+      },
     },
+    children: [
+      {
+        component: {
+          name: 'LogIn',
+        },
+      },
+    ],
+  },
+});
 });
