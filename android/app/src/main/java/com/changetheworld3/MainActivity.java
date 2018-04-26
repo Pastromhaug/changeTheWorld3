@@ -8,8 +8,8 @@ import android.util.Log;
 
 import com.changetheworld3.speech.SpeechService;
 import com.facebook.react.ReactActivity;
-import com.reactnativenavigation.NavigationActivity;
+import com.reactnativenavigation.controllers.SplashActivity;
 
-public class MainActivity extends NavigationActivity {
+public class MainActivity extends SplashActivity {
 
 }

@@ -14,7 +14,7 @@
     "react-native": "0.54.0",
     "react-native-firebase": "^4.0.0-rc.2",
     "react-native-google-sign-in": "^1.0.16",
-    "react-native-navigation": "^2.0.2185",
+    "react-native-navigation": "^1.1.422",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",

@@ -24,21 +24,10 @@ const store = init({
 
 registerScreens(store, Provider);
 
-Navigation.events().onAppLaunched(() => {
-  Navigation.setRoot({
-  stack: {
-    options: {
-      topBar: {
-        hidden: false,
-      },
+
+Navigation.startSingleScreenApp({
+    screen: {
+        screen: 'LogIn',
+        title: 'LogIn',
     },
-    children: [
-      {
-        component: {
-          name: 'LogIn',
-        },
-      },
-    ],
-  },
-});
 });
