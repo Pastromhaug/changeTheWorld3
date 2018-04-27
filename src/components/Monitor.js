@@ -33,7 +33,7 @@ class Monitor extends Component {
     componentDidMount() {
         console.log('monitor mounted');
         SpeechModule.bindSpeechService();
-        // SpeechModule.startVoiceRecorder();
+        SpeechModule.startVoiceRecorder();
     }
 
     render() {
