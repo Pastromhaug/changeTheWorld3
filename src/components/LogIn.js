@@ -10,14 +10,21 @@ import LoggedIn from './LoggedIn';
 class LogIn extends Component {
     componentDidMount() {
         this.authSubscription = firebase.auth().onAuthStateChanged((user) => {
-            console.log('onAuthStateChanged: ', user);
+            console.log('onAuthStateChanged: ');
+            console.log(user)
+            console.log(
+                user._user.displayName,
+                user._user.email,
+                user._user.photoUrl,
+                user._user.uid
+            )
             if (user) {
-                this.props.login(
-                    user.displayName,
-                    user.email,
-                    user.photoUrl,
-                    user.uid,
-                );
+                this.props.login({
+                    displayName: user._user.displayName,
+                    email :user._user.email,
+                    photoUrl: user._user.photoUrl,
+                    uid: user._user.uid,
+                });
             }
         });
     }
@@ -35,14 +42,7 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-    login: (displayName, email, photoUrl, uid) => {
-        dispatch.user.login({
-            displayName,
-            email,
-            photoUrl,
-            uid,
-        });
-    },
+    login: dispatch.user.login
 });
 
 export default connect(mapState, mapDispatch)(LogIn);

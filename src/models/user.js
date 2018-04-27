@@ -8,6 +8,8 @@ export const user = {
     },
     reducers: {
         login(state, payload) {
+            console.log('login reducer:')
+            console.log(payload)
             return {
                 loggedIn: true,
                 displayName: payload.displayName,

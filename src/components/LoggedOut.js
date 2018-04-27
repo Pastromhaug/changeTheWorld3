@@ -19,11 +19,6 @@ async function firebaseSignIn(idToken, accessToken) {
 export default class LoggedOut extends Component {
     constructor(props) {
         super(props);
-
-        DeviceEventEmitter.addListener('RNGoogleSignInSuccess', (e) => {
-            console.log('RNGoogleSignInSuccess', e);
-            firebaseSignIn(e.idToken, e.accessToken);
-        });
     }
 
     componentDidMount() {
