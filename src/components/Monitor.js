@@ -1,9 +1,29 @@
 
 import React, { Component } from 'react';
-import { View, Text, DeviceEventEmitter } from 'react-native';
+import { View, Text, DeviceEventEmitter, PermissionsAndroid } from 'react-native';
 import { connect } from 'react-redux';
 
 import SpeechModule from '../native_modules/speech';
+
+async function requestRecordAudioPermission() {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+      {
+        'title': 'Cool Photo App Camera Permission',
+        'message': 'Cool Photo App needs access to your camera ' +
+                   'so you can take awesome pictures.'
+      }
+    )
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      console.log("You can record audio")
+    } else {
+      console.log("record audio permission denied")
+    }
+  } catch (err) {
+    console.warn(err)
+  }
+}
 
 class Monitor extends Component {
     constructor(props) {
@@ -33,7 +53,9 @@ class Monitor extends Component {
     componentDidMount() {
         console.log('monitor mounted');
         SpeechModule.bindSpeechService();
-        SpeechModule.startVoiceRecorder();
+        requestRecordAudioPermission().then(() => {
+            SpeechModule.startVoiceRecorder()
+        })
     }
 
     render() {
