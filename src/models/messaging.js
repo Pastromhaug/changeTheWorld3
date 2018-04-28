@@ -30,6 +30,8 @@ export const messaging = {
         },
         receiveMessages(state, payload) {
             const messages = payload.messages.sort((a, b) => b.time - a.time);
+            console.log('received messages')
+            console.log(messages)
             return Object.assign({}, state, {
                 messages,
             });
