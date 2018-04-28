@@ -5,7 +5,6 @@ export const speechService = {
     },
     reducers: {
         setConnected(state, payload) {
-            console.log('in seConnected with payload', payload);
             return Object.assign({}, state, {
                 connected: payload.isConnected,
             });

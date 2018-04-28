@@ -33,6 +33,16 @@ class Speech extends Component {
                 const messages = Object.values(s.val());
                 this.props.receiveMessages(messages);
             });
+
+        firebase.database()
+            .ref('users/' + this.props.user.uid + '/groups')
+            .on('value', snapshot => {
+                groups = snapshot.val()
+                if (groups) {
+                    const groups = Object.values(s.val());
+                    this.props.receiveGroups(groups)
+                }
+            })
     }
 
     render() {
