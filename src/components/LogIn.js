@@ -8,6 +8,9 @@ import LoggedIn from './LoggedIn';
 
 
 class LogIn extends Component {
+    static navigationOptions = {
+        title: 'Welcome',
+    };
     componentDidMount() {
         this.authSubscription = firebase.auth().onAuthStateChanged((user) => {
             console.log('onAuthStateChanged: ');
@@ -32,8 +35,13 @@ class LogIn extends Component {
         this.authSubscription();
     }
     render() {
-        if (this.props.loggedIn) return <LoggedIn />;
-        return <LoggedOut />;
+        const { navigate } = this.props.navigation;
+        if (this.props.loggedIn) {
+            navigate('LoggedIn')
+            return null;
+        };
+        navigate('LoggedOut');
+        return null;
     }
 }
 

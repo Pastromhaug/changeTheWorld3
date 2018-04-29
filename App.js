@@ -1,10 +1,13 @@
 
 import React from 'react';
 import { YellowBox } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 import { init } from '@rematch/core';
 import { Provider } from 'react-redux';
 
 import LogIn from './src/components/LogIn';
+import LoggedIn from './src/components/LoggedIn';
+import LoggedOut from './src/components/LoggedOut';
 import { messaging } from './src/models/messaging';
 import { speechService } from './src/models/speechService';
 import { user } from './src/models/user';
@@ -22,8 +25,14 @@ const store = init({
     },
 });
 
+const App = StackNavigator({
+  LogIn: { screen: LogIn },
+  LoggedIn: { screen: LoggedIn },
+  LoggedOut: { screen: LoggedOut },
+});
+
 export default () => (
     <Provider store={ store }>
-        <LogIn />
+        <App />
     </Provider>
 );

@@ -3,13 +3,24 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import firebase from 'react-native-firebase';
 import PropTypes from 'prop-types';
-import { FlatList, View, Text, DeviceEventEmitter } from 'react-native';
+import { FlatList, TouchableOpacity, View, Text, DeviceEventEmitter } from 'react-native';
 
 
 class Groups extends Component {
+
     static renderItem({ item }) {
         console.log('rendering group', item)
-        return <Text>{item.name}</Text>;
+        return (
+            <View>
+                <Text>{item.name}</Text>
+            </View>
+        )
+
+    }
+
+    onGroupClick() {
+        console.log('clicked')
+        this.props.navigation.navigate('Speech')
     }
 
     componentDidMount() {
@@ -32,15 +43,18 @@ class Groups extends Component {
     }
 
     render() {
+
+        console.log('render groups', this.props.groups)
         return (
-            <View>
+            <TouchableOpacity
+              onPress={this.onGroupClick}>
                 <FlatList
                   data={ Object.values(this.props.groups) }
                   keyExtractor={ item => item.key }
                   renderItem={ Groups.renderItem }
                   extraData={ this.props }
                 />
-            </View>
+            </TouchableOpacity>
         );
     }
 }
