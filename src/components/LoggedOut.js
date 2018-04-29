@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
 import { View, Text, DeviceEventEmitter } from 'react-native';
+import { connect } from 'react-redux';
 import firebase from 'react-native-firebase';
 import GoogleSignIn from '../native_modules/googleSignIn';
 
@@ -16,13 +17,26 @@ async function firebaseSignIn(idToken, accessToken) {
     console.log('firebaseSignIn user: ', JSON.stringify(currentUser.toJSON()));
 }
 
-export default class LoggedOut extends Component {
+class LoggedOut extends Component {
     constructor(props) {
+        console.log('logged out constructor')
         super(props);
-    }
 
-    componentDidMount() {
-        console.log('LoggedOut');
+        this.authSubscription = firebase.auth().onAuthStateChanged((user) => {
+            console.log('onAuthStateChanged: ');
+            console.log(user)
+
+            if (user) {
+                this.props.login({
+                    displayName: user._user.displayName,
+                    email :user._user.email,
+                    photoUrl: user._user.photoUrl,
+                    uid: user._user.uid,
+                });
+                this.props.navigation.navigate('App');
+                console.log('called navigate in loggedout')
+            }
+        });
         googleSignIn();
     }
 
@@ -34,3 +48,9 @@ export default class LoggedOut extends Component {
         );
     }
 }
+
+const mapDispatch = dispatch => ({
+    login: dispatch.user.login
+});
+
+export default connect(undefined, mapDispatch)(LoggedOut);

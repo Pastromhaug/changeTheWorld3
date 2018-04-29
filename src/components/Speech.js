@@ -3,7 +3,28 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import firebase from 'react-native-firebase';
 import PropTypes from 'prop-types';
-import { FlatList, View, Text, DeviceEventEmitter } from 'react-native';
+import { FlatList, View, Text, DeviceEventEmitter, PermissionsAndroid } from 'react-native';
+
+import SpeechModule from '../native_modules/speech';
+
+
+async function requestRecordAudioPermission() {
+    try {
+        const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.RECORD_AUDIO, {
+            'title': 'Cool Photo App Camera Permission',
+            'message': 'Cool Photo App needs access to your camera ' +
+                       'so you can take awesome pictures.'
+        })
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log("You can record audio")
+        } else {
+            console.log("record audio permission denied")
+        }
+    } catch (err) {
+        console.warn(err)
+    }
+}
 
 
 class Speech extends Component {
@@ -11,11 +32,13 @@ class Speech extends Component {
         const { text, user } = item;
         let display = text || '';
         display = user ? text.concat(' - ').concat(user.displayName) : display;
-
         return <Text>{display}</Text>;
     }
 
-    componentDidMount() {
+    constructor(props) {
+        super(props)
+        SpeechModule.bindSpeechService();
+
         DeviceEventEmitter.addListener('speechReceived', (e) => {
             console.log(e);
             this.props.sendMessage(
@@ -34,15 +57,9 @@ class Speech extends Component {
                 this.props.receiveMessages(messages);
             });
 
-        firebase.database()
-            .ref('users/' + this.props.user.uid + '/groups')
-            .on('value', snapshot => {
-                groups = snapshot.val()
-                if (groups) {
-                    const groups = Object.values(s.val());
-                    this.props.receiveGroups(groups)
-                }
-            })
+        requestRecordAudioPermission().then(() => {
+            SpeechModule.startVoiceRecorder()
+        })
     }
 
     render() {

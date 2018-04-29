@@ -8,27 +8,22 @@ import { FlatList, TouchableOpacity, View, Text, DeviceEventEmitter } from 'reac
 
 class Groups extends Component {
 
-    static renderItem({ item }) {
+    renderItem({ item }) {
         console.log('rendering group', item)
         return (
-            <View>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Speech')}>
                 <Text>{item.name}</Text>
-            </View>
+            </TouchableOpacity>
         )
 
     }
 
-    onGroupClick() {
-        console.log('clicked')
-        this.props.navigation.navigate('Speech')
-    }
-
-    componentDidMount() {
-
-        console.log('this.props.groups', this.props.groups)
+    constructor(props) {
+        super(props)
+        console.log('this.props.groups', props.groups)
 
         firebase.database()
-            .ref('users/' + this.props.user.uid + '/groups')
+            .ref('users/' + props.user.uid + '/groups')
             .on('value', snapshot => {
                 const groups = Object.values(snapshot.val());
                 var i;
@@ -36,7 +31,7 @@ class Groups extends Component {
                     firebase.database().ref('groups/' + groups[i])
                         .on('value', snapshot => {
                             const group = snapshot.val()
-                            this.props.receiveGroup({ group })
+                            props.receiveGroup({ group })
                         })
                 }
             })
@@ -46,15 +41,14 @@ class Groups extends Component {
 
         console.log('render groups', this.props.groups)
         return (
-            <TouchableOpacity
-              onPress={this.onGroupClick}>
+            <View>
                 <FlatList
                   data={ Object.values(this.props.groups) }
                   keyExtractor={ item => item.key }
-                  renderItem={ Groups.renderItem }
+                  renderItem={ this.renderItem.bind(this) }
                   extraData={ this.props }
                 />
-            </TouchableOpacity>
+            </View>
         );
     }
 }
