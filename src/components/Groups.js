@@ -9,7 +9,6 @@ import { FlatList, TouchableOpacity, View, Text, DeviceEventEmitter } from 'reac
 class Groups extends Component {
 
     renderItem({ item }) {
-        console.log('rendering group', item)
         return (
             <TouchableOpacity onPress={() => this.props.navigation.navigate('Speech')}>
                 <Text>{item.name}</Text>
@@ -20,8 +19,6 @@ class Groups extends Component {
 
     constructor(props) {
         super(props)
-        console.log('this.props.groups', props.groups)
-
         firebase.database()
             .ref('users/' + props.user.uid + '/groups')
             .on('value', snapshot => {
@@ -38,8 +35,6 @@ class Groups extends Component {
     }
 
     render() {
-
-        console.log('render groups', this.props.groups)
         return (
             <View>
                 <FlatList

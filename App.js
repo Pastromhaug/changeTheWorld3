@@ -31,7 +31,7 @@ const AppStack = StackNavigator({
     }
 )
 
-const AuthStack = StackNavigator({ LoggeOut: LoggedOut });
+const AuthStack = StackNavigator({ LoggeOut: { screen: LoggedOut } });
 
 const Root = SwitchNavigator({
         App: { screen: AppStack },
