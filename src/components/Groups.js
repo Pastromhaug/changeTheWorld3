@@ -10,7 +10,11 @@ class Groups extends Component {
 
     renderItem({ item }) {
         return (
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Speech')}>
+            <TouchableOpacity onPress={() => {
+                const current_group = item.key
+                this.props.setCurrentGroup({ current_group })
+                this.props.navigation.navigate('Speech')
+            }}>
                 <Text>{item.name}</Text>
             </TouchableOpacity>
         )
@@ -23,8 +27,7 @@ class Groups extends Component {
             .ref('users/' + props.user.uid + '/groups')
             .on('value', snapshot => {
                 const groups = Object.values(snapshot.val());
-                var i;
-                for (i = 0; i < groups.length; i++) {
+                for (let i = 0; i < groups.length; i++) {
                     firebase.database().ref('groups/' + groups[i])
                         .on('value', snapshot => {
                             const group = snapshot.val()
@@ -54,7 +57,8 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-    receiveGroup: dispatch.messaging.receiveGroup
+    receiveGroup: dispatch.messaging.receiveGroup,
+    setCurrentGroup: dispatch.messaging.setCurrentGroup,
 });
 
 export default connect(mapState, mapDispatch)(Groups);

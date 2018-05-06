@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import firebase from 'react-native-firebase';
 import GoogleSignIn from '../native_modules/googleSignIn';
 
+
 async function googleSignIn() {
     await GoogleSignIn.configure({});
     const user = await GoogleSignIn.signIn();
@@ -19,9 +20,7 @@ async function firebaseSignIn(idToken, accessToken) {
 
 class LoggedOut extends Component {
     constructor(props) {
-        console.log('logged out constructor')
         super(props);
-
         this.authSubscription = firebase.auth().onAuthStateChanged((user) => {
             console.log('onAuthStateChanged: ');
             console.log(user)
@@ -37,6 +36,13 @@ class LoggedOut extends Component {
                 console.log('called navigate in loggedout')
             }
         });
+
+        DeviceEventEmitter.addListener('RNGoogleSignInSuccess', (e) => {
+            console.log('RNGoogleSignInSuccess');
+            console.log(e);
+            firebaseSignIn(e.idToken, e.accessToken);
+        });
+
         googleSignIn();
     }
 

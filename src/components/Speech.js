@@ -41,20 +41,27 @@ class Speech extends Component {
 
         DeviceEventEmitter.addListener('speechReceived', (e) => {
             console.log(e);
-            this.props.sendMessage(
-                e.text,
-                e.isFinal,
-                this.props.user,
-            );
+            props.sendMessage({
+                text: e.text,
+                isFinal: e.isFinal,
+                user: props.user,
+            });
         });
 
+        console.log('current_group', 'groups/' + props.current_goup +'/messages')
         firebase.database()
-            .ref('messages')
+            .ref('groups/' + props.current_goup +'/messages')
             .orderByValue()
             .limitToLast(20)
             .on('value', (s) => {
-                const messages = Object.values(s.val());
-                this.props.receiveMessages(messages);
+                console.log('messages')
+                console.log(s.val())
+                if (s.val()) {
+                    const messages = Object.values(s.val());
+                    props.receiveMessages({
+                        messages: messages,
+                    });
+                }
             });
 
         requestRecordAudioPermission().then(() => {
@@ -76,22 +83,16 @@ class Speech extends Component {
     }
 }
 
-Speech.propTypes = {
-    messages: PropTypes.array.isRequired,
-};
-
 const mapState = state => ({
     messages: state.messaging.messages,
     user: state.user,
+    current_goup: state.messaging.current_group,
+
 });
 
 const mapDispatch = dispatch => ({
-    sendMessage: (text, isFinal, user) => {
-        dispatch.messaging.sendMessage({ text, isFinal, user });
-    },
-    receiveMessages: (messages) => {
-        dispatch.messaging.receiveMessages({ messages });
-    },
+    sendMessage: dispatch.messaging.sendMessage,
+    receiveMessages: dispatch.messaging.receiveMessages,
 });
 
 export default connect(mapState, mapDispatch)(Speech);
