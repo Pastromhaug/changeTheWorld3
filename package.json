@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "@rematch/core": "^0.4.1",
+    "aws-amplify": "^0.3.3",
+    "aws-amplify-react-native": "^0.2.9",
     "npm": "^5.7.1",
     "prop-types": "^15.6.1",
     "react": "16.2.0",
